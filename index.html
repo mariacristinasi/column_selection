@@ -5,6 +5,7 @@
         <title>CSV columns</title>
         <style>
             body {background-color: white;}
+            table {text-align: center}
           .special {color: rgb(11, 102, 11); font-weight: bold; font-size:20px}
           .other {color:  rgb(0, 0, 0); font-weight: bold}
           .output {color:  rgb(0, 0, 0)}
@@ -44,13 +45,13 @@
                     d3.csv(csv_data2,
                     (d,i,c) => {
                         if (i==0){
-                    d3.select("table")
-                    .append("tr")
-                    .selectAll("th")
-                    .data(c).enter()
-                    .append("th")
-                    .text(e => e)
-                    }  
+                        d3.select("table")
+                        .append("tr")
+                        .selectAll("th")
+                        .data(c).enter()
+                        .append("th")
+                        .text(e => e)
+                        }  
                     d3.select("table")
                     .append("tr")
                     .selectAll("td")
@@ -68,12 +69,14 @@
             <br>
         </p>   
             <select id="selectColumn" onchange="columnSelection()">
+                <option value="null"> - </option>
                 <option value="data1">CSV: Data 1</option>
                 <option value="data2">CSV: Data 2</option>
                 </select>
         <br>
-        <table class="output"></table>
-        
+        <br>
+        <table width="200 px" border="1" style="border-collapse:collapse;border-color:rgb(163, 163, 163)" class="output">
+        </table>
     </body>
 
 </html>
