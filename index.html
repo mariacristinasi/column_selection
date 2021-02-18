@@ -2,29 +2,82 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Writting page</title>
+        <title>CSV columns</title>
         <style>
             body {background-color: white;}
           .special {color: rgb(11, 102, 11); font-weight: bold; font-size:20px}
           .other {color:  rgb(0, 0, 0); font-weight: bold}
+          .output {color:  rgb(0, 0, 0)}
         </style>
         <script src="https://d3js.org/d3.v6.min.js"></script>
+        
     </head>
 
     <body>
         <script>
-            csv_data1 = false ? "data1.csv" : "https://github.com/mariacristinasi/column_selection/main/data1.csv"
+            csv_data1 = false ? "data1.csv" : "https://raw.githubusercontent.com/mariacristinasi/column_selection/main/data1.csv"
             d3.csv(csv_data1,
             (d,i,c) => {
                 if (i>10) return d
-                d3.select("table")
+                d3.select("table1")
                 .append("tr")
                 .selectAll("td")
                 .data(c).enter()
                 .append("td").text(e => d[e])
             })
+
+            csv_data2 = false ? "data2.csv" : "https://raw.githubusercontent.com/mariacristinasi/column_selection/main/data2.csv"
+            d3.csv(csv_data2,(d,i,c) => {
+                if (i==0){
+                    d3.select("table2")
+                    .append("tr")
+                    .selectAll("th")
+                    .data(c).enter()
+                    .append("th")
+                    .text(e => e)  
+                }  
+                d3.select("table2")
+                .append("tr")
+                .selectAll("td")
+                .data(c).enter()
+                .append("td")
+                .text(e => d[e])
+                .attr("column", e => e)
+                d3.select("table2")
+                .selectAll("[column='height']")                   
+            })
+
+
+            function columnSelection() {
+                    if (option == "2name") {
+                        d3.csv(csv_data2,
+                        (d,i,c) => {
+                            d3.select("table").attr("column", c)
+                            .append("tr")
+                            .selectAll("[column='name']")
+                            .data(c).enter()
+                            .append("td").text(e => d[e])
+                        })
+                    } 
+                }
         </script>
 
+        <div class="other">
+            Select the column to display:
+            <br>
+            <select onchange="columnSelection()">
+                <option value="1name">Data 1 - Column: "name"</option>
+                <option value="1x">Data 1 - Column: "x"</option>
+                <option value="1y">Data 1 - Column: "y"</option>
+                <option value="2name">Data 2 - Column: "name"</option>
+                <option value="2length">Data 2 - Column: "length"</option>
+                <option value="2height">Data 2 - Column: "height"</option>
+                <option value="2color">Data 2 - Column: "color"</option>
+            </select>
+        </div>
+        <br>
+        <table2 class="output"></table2>
+        
     </body>
 
 </html>
